@@ -8,41 +8,64 @@ use Carbon\Carbon;
 
 class MonthlySlaController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        // Ambil bulan & tahun dari request, default: bulan sekarang
-        $month = $request->input('month', Carbon::now()->month);
-        $year  = $request->input('year', Carbon::now()->year);
+        $month = Carbon::now()->month;
+        $year = Carbon::now()->year;
 
-        // Tentukan awal & akhir bulan
-        $startOfMonth = Carbon::createFromDate($year, $month, 1)->startOfMonth();
-        $endOfMonth   = Carbon::createFromDate($year, $month, 1)->endOfMonth();
+        // filter log bulan ini
+        $startOfMonth = Carbon::create($year, $month, 1)->startOfMonth();
+        $endOfMonth   = Carbon::create($year, $month, 1)->endOfMonth();
 
-        // Ambil data log sesuai bulan & tahun
         $logs = LogEntry::whereBetween('timestamp', [$startOfMonth, $endOfMonth])->get();
 
-        // Hitung SLA tiap klien
-        $slaData = $logs->groupBy('client_name')->map(function ($items, $client) {
+        // 1️⃣ Pareto Root Cause
+        $paretoRootCause = $logs->groupBy('client_name')->map(function ($items) {
+            $rootCauseCounts = $items->groupBy('root_cause')->map->count();
+            if ($rootCauseCounts->isEmpty()) {
+                return ['root_cause' => '-', 'jumlah' => 0];
+            }
+            $top = $rootCauseCounts->sortDesc()->take(1);
+            return [
+                'root_cause' => $top->keys()->first(),
+                'jumlah'     => $top->first(),
+            ];
+        });
+
+        // 2️⃣ Rekap SLA per PT
+        $rekapSLA = $logs->groupBy('client_name')->map(function ($items) use ($month, $year) {
             $total = $items->count();
             $down  = $items->where('status', 'down')->count();
             $sla   = $total > 0 ? round(100 * ($total - $down) / $total, 2) : 100;
 
             return [
-                'client_name' => $client,
-                'total'       => $total,
-                'down'        => $down,
+                'bulan'       => Carbon::create()->month($month)->format('F'),
+                'jumlah'      => $down,
+                'total_menit' => $down * 5, // contoh: 1 log down = 5 menit (bisa disesuaikan)
                 'sla'         => $sla,
             ];
-        })->values();
+        });
 
-        // Data untuk dropdown bulan & tahun
+        // 3️⃣ Data Chart
+        $labels = $rekapSLA->keys()->toArray();
+        $values = $rekapSLA->pluck('sla')->toArray();
+
+        // Nama bulan Indonesia
         $months = [
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
-            5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
-            9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
+            4 => 'April', 5 => 'Mei', 6 => 'Juni',
+            7 => 'Juli', 8 => 'Agustus', 9 => 'September',
+            10 => 'Oktober', 11 => 'November', 12 => 'Desember'
         ];
-        $years = range(Carbon::now()->year - 2, Carbon::now()->year + 1); // bisa pilih -2 tahun sampai +1 tahun
 
-        return view('monthly-sla.index', compact('slaData', 'months', 'years', 'month', 'year'));
+        return view('monthly-sla.index', compact(
+            'paretoRootCause',
+            'rekapSLA',
+            'labels',
+            'values',
+            'months',
+            'month',
+            'year'
+        ));
     }
 }
