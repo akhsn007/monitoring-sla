@@ -58,45 +58,10 @@ class LogEntryController extends Controller
     /**
      * Import data dari file JSON PRTG di storage/app/prtg/respon-prtg.json
      */
-    public function importFromPrtg()
-    {
-        $jsonPath = storage_path('app/prtg/respon-prtg.json');
-
-        if (!file_exists($jsonPath)) {
-            return redirect()->route('log-entry.index')
-                ->with('error', 'File respon-prtg.json tidak ditemukan di storage/app/prtg.');
-        }
-
-        $jsonContent = file_get_contents($jsonPath);
-        $data = json_decode($jsonContent, true);
-
-        if (!is_array($data)) {
-            return redirect()->route('log-entry.index')
-                ->with('error', 'Format file JSON tidak valid.');
-        }
-
-        // Konversi format tanggal PRTG (dd/mm/yyyy HH:ii:ss) ke MySQL
-        $timestamp = null;
-        if (!empty($data['datetime'])) {
-            $timestamp = \Carbon\Carbon::createFromFormat('d/m/Y H:i:s', $data['datetime'])->format('Y-m-d H:i:s');
-        } else {
-            $timestamp = now();
-        }
-
-        \App\Models\LogEntry::create([
-            'client_name' => $data['device'] ?? 'Tidak diketahui',
-            'ip_address'  => $data['host'] ?? '0.0.0.0',
-            'status'      => (stripos($data['status'] ?? '', 'down') !== false) ? 'down' : 'up',
-            'root_cause'  => $data['message'] ?? 'Lainnya', // ambil pesan lengkap
-            'timestamp'   => $timestamp,
-        ]);
-
-        return redirect()->route('log-entry.index')->with('success', 'Data PRTG berhasil diimpor.');
-    }
 
     public function deleteAll()
     {
-    LogEntry::truncate();
-    return redirect()->route('log-entry.index')->with('success', 'Semua log berhasil dihapus.');
+        LogEntry::truncate();
+        return redirect()->route('log-entry.index')->with('success', 'Semua log berhasil dihapus.');
     }
 }
