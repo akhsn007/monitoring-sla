@@ -17,23 +17,25 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     $jsonContent = $request->getContent();
     $data = json_decode($jsonContent, true);
 
-    return $data;
-
-    if (!is_array($data)) {
-        return response()->json([
-            'error' => 'Format file JSON tidak valid.'
-        ], 400);
-    }
-
     $timestamp = !empty($data['%lastcheck'])
         ? \Carbon\Carbon::createFromFormat('d/m/Y H:i:s', $data['%lastcheck'])->format('Y-m-d H:i:s')
         : now();
-
-    $logEntry = \App\Models\LogEntry::create([
+    // return response()->json([
+    //     'success' => false,
+    //     'message' => 'Data PRTG gagal diimpor.',
+    //     'data' => $data
+    // ], 200);
+    $logEntry = \App\Models\LogEntry::updateOrCreate([
+        'ip_address'  => $data['host'] ?? '0.0.0.0',
+        'lastdown'    => $data['lastdown'] ?? null,
+    ], [
         'client_name' => $data['device'] ?? 'Tidak diketahui',
         'ip_address'  => $data['host'] ?? '0.0.0.0',
-        'status'      => (stripos($data['laststatus'] ?? '', 'down') !== false || ($data['down'] ?? false)) ? 'down' : 'up',
+        'status'      => $data['laststatus'] ?? 'Unknown',
         'root_cause'  => $data['history'] ?? ($data['group'] ?? 'Lainnya'),
+        'lastdown'    => $data['lastdown'] ?? null,
+        'deviceid'    => $data['deviceid'] ?? null,
+        'downtime'    => $data['downtime'] ?? null,
         'timestamp'   => $timestamp,
     ]);
 

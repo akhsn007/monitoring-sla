@@ -15,6 +15,9 @@ class LogEntry extends Model
         'root_cause',
         'status',
         'timestamp',
+        'lastdown',
+        'deviceid',
+        'downtime',
     ];
 
     public $timestamps = true;
