@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\LogEntryController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/user', function (Request $request) {
@@ -25,6 +26,9 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     //     'message' => 'Data PRTG gagal diimpor.',
     //     'data' => $data
     // ], 200);
+
+    Log::info('Received PRTG data:', $data);
+
     $logEntry = \App\Models\LogEntry::updateOrCreate([
         'ip_address'  => $data['host'] ?? '0.0.0.0',
         'lastdown'    => $data['lastdown'] ?? null,
@@ -38,6 +42,7 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
         'downtime'    => $data['downtime'] ?? null,
         'timestamp'   => $timestamp,
     ]);
+    Log::info('log enttri:', $logEntry);
 
     return response()->json([
         'success' => true,
