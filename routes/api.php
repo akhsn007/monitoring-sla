@@ -9,13 +9,15 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 
-Route::post('/log-entry/import-prtg', function (Request $request) {
+Route::put('/log-entry/import-prtg', function (Request $request) {
     // Logic to import data from the PRTG JSON file
     // This should call the appropriate method in LogEntryController
 
 
     $jsonContent = $request->getContent();
     $data = json_decode($jsonContent, true);
+
+    return $data;
 
     if (!is_array($data)) {
         return response()->json([
