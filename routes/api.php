@@ -42,7 +42,7 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
         'downtime'    => $data['downtime'] ?? null,
         'timestamp'   => $timestamp,
     ]);
-    Log::info('log enttri:', $logEntry);
+    // Log::info('log enttri:', $logEntry->toArray());
 
     return response()->json([
         'success' => true,
