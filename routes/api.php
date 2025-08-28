@@ -27,7 +27,7 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     //     'data' => $data
     // ], 200);
 
-    Log::info('Received PRTG data:', $data);
+    Log::info($data);
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
         'ip_address'  => $data['host'] ?? '0.0.0.0',
