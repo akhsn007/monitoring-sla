@@ -67,11 +67,20 @@
                     </x-slot>
                 </x-dropdown>
             </div>
-
-            <!-- Current Date and Time Zone -->
-            <div class="flex items-center px-4 text-sm text-gray-600">
+            <!-- Current Date and Time Zone (Realtime) -->
+            <div class="flex items-center px-4 text-sm text-gray-600" id="datetime">
                 {{ now()->format('Y-m-d H:i:s') }} ({{ config('app.timezone') }})
             </div>
+            <script>
+                function updateDateTime() {
+                    const dt = new Date();
+                    const pad = n => n.toString().padStart(2, '0');
+                    const formatted = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`;
+                    document.getElementById('datetime').innerHTML = `${formatted} ({{ config('app.timezone') }})`;
+                }
+                setInterval(updateDateTime, 1000);
+                updateDateTime();
+            </script>
 
             <!-- Hamburger (mobile menu) -->
             <div class="flex items-center -me-2 sm:hidden">
