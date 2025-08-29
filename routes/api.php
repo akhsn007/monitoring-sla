@@ -23,11 +23,11 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     $timestamp = !empty($data['%lastcheck'])
         ? \Carbon\Carbon::createFromFormat('d/m/Y H:i:s', $data['%lastcheck'])->format('Y-m-d H:i:s')
         : now();
-    return response()->json([
-        'success' => false,
-        'message' => 'Data PRTG gagal diimpor.',
-        'data' => $data
-    ], 200);
+    // return response()->json([
+    //     'success' => false,
+    //     'message' => 'Data PRTG gagal diimpor.',
+    //     'data' => $data
+    // ], 200);
 
     // dump($jsonContent);
     // dd($data);
