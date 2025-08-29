@@ -27,7 +27,7 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     //     'data' => $data
     // ], 200);
 
-    Log::info($request->all());
+    Log::info($jsonContent);
     Log::info($data);
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
