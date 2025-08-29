@@ -61,7 +61,7 @@
                                 <td class="p-3">{{ $log->ip_address }}</td>
                                 <td class="p-3">{{ $log->root_cause }}</td>
                                 @php
-                                    $statusColor = $log->status == 'down' ? 'red' : 'green';
+                                    $statusColor = $log->status == 'Down' ? 'red' : 'green';
                                 @endphp
                                 <td class="p-3 text-{{ $statusColor }}-600 font-bold">
                                     {{ ucfirst($log->status) }}
