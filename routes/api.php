@@ -35,7 +35,7 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     Log::info($data);
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
-        'lastdown'    => $data['lastdown'],
+        'lastup'    => $data['lastup'],
         'deviceid'    => $data['deviceid'],
         'status'      => $data['laststatus'],
     ], [
