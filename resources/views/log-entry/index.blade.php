@@ -42,7 +42,7 @@
             {{-- Tabel Log --}}
             <div class="overflow-hidden bg-white rounded-lg shadow-md">
                 <table class="w-full text-sm text-left border">
-                    <thead class="bg-gray-100">
+                    <thead class="bg-gray-100 text-uppercase">
                         <tr>
                             <th class="p-3">Nama Klien</th>
                             <th class="p-3">Device ID</th>
@@ -50,6 +50,7 @@
                             <th class="p-3">Root Cause</th>
                             <th class="p-3">Status</th>
                             <th class="p-3">last down</th>
+                            <th class="p-3">last up</th>
                             <th class="p-3">Aksi</th>
                         </tr>
                     </thead>
@@ -67,6 +68,7 @@
                                     {{ ucfirst($log->status) }}
                                 </td>
                                 <td class="p-3">{{ $log->lastdown }}</td>
+                                <td class="p-3">{{ $log->lastup }}</td>
                                 <td class="flex flex-wrap gap-2 p-3">
                                     <a href="{{ route('log-entry.edit', $log->id) }}"
                                         class="inline-block px-3 py-1 text-blue-600 rounded bg-blue-50 hover:bg-blue-100">
