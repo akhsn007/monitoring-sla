@@ -6,8 +6,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientDataController;
 use App\Http\Controllers\MonthlySlaController;
 use App\Http\Controllers\LogEntryController;
-use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Process\Process;
+
 
 // 👇 Arahkan root URL ke halaman dashboard (dengan pengecekan auth)
 Route::get('/', function () {
@@ -59,17 +60,27 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ]);
     })->name('composer.install');
 
+    Route::get('/migrate', function () {
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+            $output = Artisan::output();
 
-Route::get('/migrate', function () {
-    try {
-        Artisan::call('migrate', ['--force' => true]);
-        $output = Artisan::output();
-
-        return response()->json(['output' => $output]);
-    } catch (\Exception $e) {
-        return response($e->getMessage(), 500);
+            return response()->json(['output' => $output]);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 500);
+        }
+    })->name('migrate');
+    function runCommand(array $cmd)
+    {
+        try {
+            $process = new \Symfony\Component\Process\Process($cmd);
+            $process->run();
+            if (!$process->isSuccessful()) throw new \Exception($process->getErrorOutput());
+            return response()->json(['output' => $process->getOutput()]);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 500);
+        }
     }
-})->name('migrate');
 
     Route::post('/log-entry/import-prtg', [LogEntryController::class, 'importFromPrtg'])
         ->name('log-entry.import-prtg');
