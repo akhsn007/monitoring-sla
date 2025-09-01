@@ -10,7 +10,7 @@ class LogEntryController extends Controller
 {
     public function index()
     {
-        $logs = LogEntry::latest()->get();
+        $logs = LogEntry::latest()->paginate(50);
         return view('log-entry.index', compact('logs'));
     }
 
