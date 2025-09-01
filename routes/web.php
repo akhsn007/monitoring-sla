@@ -31,8 +31,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return view('system.update');
     })->name('system.update');
 
-
-    Route::get('/git-stash', fn() => runCommand(['git', 'stash']))->name('git.stash');
+    Route::get('/git-stash', fn() => runCommand([
+        'git',
+        '-c',
+        'safe.directory=/var/www/monitoring-sla',
+        'stash'
+    ]))->name('git.stash');
     Route::get('/git-pull', fn() => runCommand([
         'git',
         '-c',
