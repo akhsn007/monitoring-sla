@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::table('log_entries', function (Blueprint $table) {
             //
             $table->string('lastdown')->nullable()->after('status');
-            $table->string('deviceid')->nullable();
-            $table->string('downtime')->nullable();
+            $table->string('deviceid')->nullable()->after('lastdown');
+            $table->string('downtime')->nullable()->after('deviceid');
+            $table->string('lastup')->nullable()->after('downtime');
         });
     }
 
