@@ -64,13 +64,13 @@
                 // Git Pull
                 $('#gitPullBtn').on('click', function() {
                     $('#gitLog').text('⏳ Running git stash...');
-                    $.post('{{ route('git.stash') }}', function(data) {
+                    $.get('{{ route('git.stash') }}', function(data) {
                         $('#gitLog').text('✅ Git stash output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#gitLog').text('❌ Git stash failed:\n' + xhr.responseText);
                     });
                     $('#gitLog').text('⏳ Running git pull...');
-                    $.post('{{ route('git.pull') }}', function(data) {
+                    $.get('{{ route('git.pull') }}', function(data) {
                         $('#gitLog').text('✅ Git pull output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#gitLog').text('❌ Git pull failed:\n' + xhr.responseText);
@@ -80,7 +80,7 @@
                 // Composer Install
                 $('#composerBtn').on('click', function() {
                     $('#composerLog').text('⏳ Running composer install...');
-                    $.post('{{ route('composer.install') }}', function(data) {
+                    $.get('{{ route('composer.install') }}', function(data) {
                         $('#composerLog').text('✅ Composer output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#composerLog').text('❌ Composer failed:\n' + xhr.responseText);
@@ -90,7 +90,7 @@
                 // Migrate
                 $('#migrateBtn').on('click', function() {
                     $('#migrateLog').text('⏳ Running migration...');
-                    $.post('{{ route('migrate') }}', function(data) {
+                    $.get('{{ route('migrate') }}', function(data) {
                         $('#migrateLog').text('✅ Migration output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#migrateLog').text('❌ Migration failed:\n' + xhr.responseText);
