@@ -42,7 +42,6 @@
                     <button id="migrateBtn" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">Run
                         Migrate</button>
                     <div id="migrateLog" class="mt-4 text-sm text-gray-700 whitespace-pre-line">Status: Waiting...</div>
-                    Status: Waiting...
                 </div>
             </div>
 
