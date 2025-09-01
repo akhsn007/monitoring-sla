@@ -39,5 +39,11 @@ Artisan::command('install:app', function () {
     $envContent = preg_replace('/^INSTALL_MODE=.*/m', 'INSTALL_MODE=false', $envContent);
     file_put_contents($envPath, $envContent);
 
+    $logFiles = glob(storage_path('logs/*.log'));
+    foreach ($logFiles as $file) {
+        @unlink($file);
+    }
+    $this->info('Log files removed.');
+
     $this->info('Installation complete. INSTALL_MODE set to false.');
 })->purpose('Install the application');
