@@ -12,8 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('client_name');
             $table->string('ip_address');
-            $table->enum('root_cause', ['Koneksi Terputus', 'Perangkat Mati', 'Masalah Listrik', 'Serangan DDoS', 'CPU Tinggi', 'Memori Penuh', 'Lainnya']);
-            $table->enum('status', ['up', 'down']);
+            $table->string('root_cause')->default('Lainnya');
+            $table->string('status')->default('Down');
             $table->timestamp('timestamp')->useCurrent();
             $table->timestamps();
         });
