@@ -53,6 +53,11 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+                        @if (env('APP_DEBUG') === 'local')
+                            <x-dropdown-link :href="route('log-viewer.index')">
+                                {{ __('Log Viewer') }}
+                            </x-dropdown-link>
+                        @endif
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -75,7 +80,8 @@
                 function updateDateTime() {
                     const dt = new Date();
                     const pad = n => n.toString().padStart(2, '0');
-                    const formatted = `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`;
+                    const formatted =
+                        `${dt.getFullYear()}-${pad(dt.getMonth()+1)}-${pad(dt.getDate())} ${pad(dt.getHours())}:${pad(dt.getMinutes())}:${pad(dt.getSeconds())}`;
                     document.getElementById('datetime').innerHTML = `${formatted} ({{ config('app.timezone') }})`;
                 }
                 setInterval(updateDateTime, 1000);
