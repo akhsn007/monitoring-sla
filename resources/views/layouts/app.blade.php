@@ -13,6 +13,7 @@
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
     <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -41,7 +42,6 @@
     <footer class="w-full py-4 text-sm text-center text-gray-700 bg-white shadow-inner">
         © 2025 PT JSP - All Rights Reserved
     </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 
