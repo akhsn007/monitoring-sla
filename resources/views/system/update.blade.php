@@ -29,8 +29,11 @@
                     <h3 class="mb-2 text-lg font-semibold">📦 Composer Install</h3>
                     <button id="composerBtn" class="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700">Run
                         Composer Install</button>
-                    <div id="composerLog" class="mt-4 text-sm text-gray-700 whitespace-pre-line">Status: Waiting...
+                    <div id="composerLog"
+                        class="mt-4 text-sm text-gray-700 whitespace-pre-line bg-white border rounded shadow">
+                        Status: Waiting...
                     </div>
+
                 </div>
 
                 {{-- Migrate --}}
@@ -39,6 +42,7 @@
                     <button id="migrateBtn" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">Run
                         Migrate</button>
                     <div id="migrateLog" class="mt-4 text-sm text-gray-700 whitespace-pre-line">Status: Waiting...</div>
+                    Status: Waiting...
                 </div>
             </div>
 

@@ -8,6 +8,7 @@ use App\Http\Controllers\MonthlySlaController;
 use App\Http\Controllers\LogEntryController;
 use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Str;
 
 
 // 👇 Arahkan root URL ke halaman dashboard (dengan pengecekan auth)
@@ -49,16 +50,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
     ]))->name('git.pull');
 
 
+
     Route::get('/composer-install', function () {
         $process = new Process(['composer', 'install'], base_path());
         $process->run();
 
+        // Strip ANSI escape codes for clean frontend display
+        $cleanOutput = preg_replace('/\e
+
+\[[\d;]*m/', '', $process->getOutput());
+        $cleanError = preg_replace('/\e
+
+\[[\d;]*m/', '', $process->getErrorOutput());
+
         return response()->json([
-            'output' => $process->getOutput(),
-            'error' => $process->getErrorOutput(),
+            'output' => $cleanOutput,
+            'error' => $cleanError,
             'success' => $process->isSuccessful(),
         ]);
-    })->name('composer.install');
+    })->name('composer.install');;
 
     Route::get('/migrate', function () {
         try {
