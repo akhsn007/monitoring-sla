@@ -53,11 +53,9 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        @if (env('APP_DEBUG'))
-                            <x-dropdown-link :href="route('log-viewer.index')">
-                                {{ __('Log Viewer') }}
-                            </x-dropdown-link>
-                        @endif
+                        <x-dropdown-link :href="route('log-viewer.index')">
+                            {{ __('Log Viewer') }}
+                        </x-dropdown-link>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
