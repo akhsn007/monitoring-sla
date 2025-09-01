@@ -33,7 +33,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
     Route::get('/git-stash', fn() => runCommand(['git', 'stash']))->name('git.stash');
-    Route::get('/git-pull', fn() => runCommand(['git', 'pull']))->name('git.pull');
+    Route::get('/git-pull', fn() => runCommand([
+        'git',
+        '-c',
+        'safe.directory=/var/www/monitoring-sla',
+        'pull'
+    ]))->name('git.pull');
     Route::get('/composer-install', fn() => runCommand(['composer', 'install']))->name('composer.install');
     Route::get('/migrate', fn() => runCommand(['php', 'artisan', 'migrate', '--force']))->name('migrate');
 
