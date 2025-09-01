@@ -6,6 +6,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ClientDataController;
 use App\Http\Controllers\MonthlySlaController;
 use App\Http\Controllers\LogEntryController;
+use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Artisan;
+
 // 👇 Arahkan root URL ke halaman dashboard (dengan pengecekan auth)
 Route::get('/', function () {
     return redirect()->route('dashboard');
@@ -43,20 +46,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'safe.directory=/var/www/monitoring-sla',
         'pull'
     ]))->name('git.pull');
-    Route::get('/composer-install', fn() => runCommand(['composer', 'install']))->name('composer.install');
-    Route::get('/migrate', fn() => runCommand(['php', 'artisan', 'migrate', '--force']))->name('migrate');
 
-    function runCommand(array $cmd)
-    {
-        try {
-            $process = new \Symfony\Component\Process\Process($cmd);
-            $process->run();
-            if (!$process->isSuccessful()) throw new \Exception($process->getErrorOutput());
-            return response()->json(['output' => $process->getOutput()]);
-        } catch (\Exception $e) {
-            return response($e->getMessage(), 500);
-        }
+
+    Route::get('/composer-install', function () {
+        $process = new Process(['composer', 'install'], base_path());
+        $process->run();
+
+        return response()->json([
+            'output' => $process->getOutput(),
+            'error' => $process->getErrorOutput(),
+            'success' => $process->isSuccessful(),
+        ]);
+    })->name('composer.install');
+
+
+Route::get('/migrate', function () {
+    try {
+        Artisan::call('migrate', ['--force' => true]);
+        $output = Artisan::output();
+
+        return response()->json(['output' => $output]);
+    } catch (\Exception $e) {
+        return response($e->getMessage(), 500);
     }
+})->name('migrate');
 
     Route::post('/log-entry/import-prtg', [LogEntryController::class, 'importFromPrtg'])
         ->name('log-entry.import-prtg');
