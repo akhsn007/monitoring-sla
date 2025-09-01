@@ -55,20 +55,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $process = new Process(['composer', 'install'], base_path());
         $process->run();
 
-        // Strip ANSI escape codes for clean frontend display
-        $cleanOutput = preg_replace('/\e
-
-\[[\d;]*m/', '', $process->getOutput());
-        $cleanError = preg_replace('/\e
-
-\[[\d;]*m/', '', $process->getErrorOutput());
+        // Strip ANSI escape codes
+        $stripAnsi = fn($text) => preg_replace('/\e\[[\d;]*m/', '', $text);
 
         return response()->json([
-            'output' => $cleanOutput,
-            'error' => $cleanError,
+            'output' => $stripAnsi($process->getOutput()),
+            'error' => $stripAnsi($process->getErrorOutput()),
             'success' => $process->isSuccessful(),
         ]);
-    })->name('composer.install');;
+    })->name('composer.install');
 
     Route::get('/migrate', function () {
         try {

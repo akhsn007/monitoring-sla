@@ -29,10 +29,10 @@
                     <h3 class="mb-2 text-lg font-semibold">📦 Composer Install</h3>
                     <button id="composerBtn" class="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700">Run
                         Composer Install</button>
-                    <div id="composerLog"
-                        class="mt-4 text-sm text-gray-700 whitespace-pre-line bg-white border rounded shadow">
+                    <div id="composerLog" class="mt-4 text-sm text-gray-700 whitespace-pre-line">
                         Status: Waiting...
                     </div>
+
 
                 </div>
 
