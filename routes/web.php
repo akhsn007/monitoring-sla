@@ -27,9 +27,31 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('System/update', function () {
+        return view('system.update');
+    })->name('system.update');
+
+
+    Route::post('/git-stash', fn() => runCommand(['git', 'stash']));
+    Route::post('/git-pull', fn() => runCommand(['git', 'pull']));
+    Route::post('/composer-install', fn() => runCommand(['composer', 'install']));
+    Route::post('/migrate', fn() => runCommand(['php', 'artisan', 'migrate', '--force']));
+
+    function runCommand(array $cmd)
+    {
+        try {
+            $process = new \Symfony\Component\Process\Process($cmd);
+            $process->run();
+            if (!$process->isSuccessful()) throw new \Exception($process->getErrorOutput());
+            return response()->json(['output' => $process->getOutput()]);
+        } catch (\Exception $e) {
+            return response($e->getMessage(), 500);
+        }
+    }
+
     Route::post('/log-entry/import-prtg', [LogEntryController::class, 'importFromPrtg'])
-    ->name('log-entry.import-prtg');
+        ->name('log-entry.import-prtg');
     Route::post('log-entry/delete-all', [LogEntryController::class, 'deleteAll'])->name('log-entry.delete-all');
 });
 // 👇 Route auth bawaan Breeze
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
