@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,7 +15,8 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased min-h-screen flex flex-col bg-gray-100">
+
+<body class="flex flex-col min-h-screen font-sans antialiased bg-gray-100">
 
     <!-- Navbar -->
     <div class="bg-white shadow">
@@ -24,7 +26,7 @@
     <!-- Page Heading -->
     @isset($header)
         <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
                 {{ $header }}
             </div>
         </header>
@@ -36,9 +38,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="w-full text-center py-4 bg-white text-gray-700 text-sm shadow-inner">
+    <footer class="w-full py-4 text-sm text-center text-gray-700 bg-white shadow-inner">
         © 2025 PT JSP - All Rights Reserved
     </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
+
 </html>

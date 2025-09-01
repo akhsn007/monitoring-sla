@@ -1,8 +1,7 @@
-{{-- resources/views/log-entry/index.blade.php --}}
 <x-app-layout>
     <x-slot name="header">
         <h2 class="text-xl font-semibold leading-tight text-gray-800">
-            {{ __('Daftar Log Gangguan') }}
+            {{ __('Update System') }}
         </h2>
     </x-slot>
 
@@ -10,43 +9,56 @@
         <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
             {{-- Notifikasi sukses --}}
             @if (session('success'))
-                <div class="p-4 mb-4 text-green-800 bg-green-100 rounded">
+                <div class="p-4 mb-4 text-green-800 bg-green-100 border border-green-300 rounded-md">
                     {{ session('success') }}
                 </div>
             @endif
 
-            <nav>
-                <a data-target="git">Git Pull</a>
-                <a data-target="composer">Composer Install</a>
-                <a data-target="migrate">Migrate</a>
+            {{-- Navigation --}}
+            <nav class="flex gap-4 mb-6 text-sm font-medium">
+                <a data-target="git" class="text-gray-600 cursor-pointer nav-tab hover:text-blue-600">Git Pull</a>
+                <a data-target="composer" class="text-gray-600 cursor-pointer nav-tab hover:text-blue-600">Composer
+                    Install</a>
+                <a data-target="migrate" class="text-gray-600 cursor-pointer nav-tab hover:text-blue-600">Migrate</a>
             </nav>
 
+            {{-- Git Pull Section --}}
             <section id="git" class="active">
-                <h2>📥 Git Pull</h2>
-                <button id="gitPullBtn">Run Git Pull</button>
-                <div id="gitLog">Status: Waiting...</div>
+                <h3 class="mb-2 text-lg font-semibold">📥 Git Pull</h3>
+                <button id="gitPullBtn" class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Run Git
+                    Pull</button>
+                <div id="gitLog" class="p-4 mt-4 text-sm text-gray-700 bg-white border rounded shadow">Status:
+                    Waiting...</div>
             </section>
 
-            <section id="composer">
-                <h2>📦 Composer Install</h2>
-                <button id="composerBtn">Run Composer Install</button>
-                <div id="composerLog">Status: Waiting...</div>
+            {{-- Composer Install Section --}}
+            <section id="composer" class="hidden">
+                <h3 class="mb-2 text-lg font-semibold">📦 Composer Install</h3>
+                <button id="composerBtn" class="px-4 py-2 text-white bg-indigo-600 rounded hover:bg-indigo-700">Run
+                    Composer Install</button>
+                <div id="composerLog" class="p-4 mt-4 text-sm text-gray-700 bg-white border rounded shadow">Status:
+                    Waiting...</div>
             </section>
 
-            <section id="migrate">
-                <h2>🗃️ Database Migration</h2>
-                <button id="migrateBtn">Run Migrate</button>
-                <div id="migrateLog">Status: Waiting...</div>
+            {{-- Migrate Section --}}
+            <section id="migrate" class="hidden">
+                <h3 class="mb-2 text-lg font-semibold">🗃️ Database Migration</h3>
+                <button id="migrateBtn" class="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700">Run
+                    Migrate</button>
+                <div id="migrateLog" class="p-4 mt-4 text-sm text-gray-700 bg-white border rounded shadow">Status:
+                    Waiting...</div>
             </section>
 
+            {{-- Script --}}
             <script>
                 // Navigation logic
                 $('nav a').on('click', function() {
-                    $('nav a').removeClass('active');
-                    $(this).addClass('active');
+                    $('nav a').removeClass('text-blue-600 font-bold');
+                    $(this).addClass('text-blue-600 font-bold');
+
                     const target = $(this).data('target');
-                    $('section').removeClass('active');
-                    $('#' + target).addClass('active');
+                    $('section').addClass('hidden').removeClass('active');
+                    $('#' + target).removeClass('hidden').addClass('active');
                 });
 
                 // Git Pull
@@ -79,7 +91,6 @@
                     });
                 });
             </script>
-
         </div>
     </div>
 </x-app-layout>

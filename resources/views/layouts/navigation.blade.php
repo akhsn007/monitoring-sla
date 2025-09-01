@@ -121,9 +121,9 @@
                 <div class="flex justify-end space-x-2">
                     <button type="button"
                         onclick="document.getElementById('updateSystemModal').classList.add('hidden')"
-                        class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Cancel</button>
+                        class="px-4 py-2 m-2 bg-gray-200 rounded hover:bg-gray-300">Cancel</button>
                     <button type="submit"
-                        class="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700">Update</button>
+                        class="px-4 py-2 m-2 text-white bg-blue-600 rounded hover:bg-blue-700">Update</button>
                 </div>
             </form>
         </div>
