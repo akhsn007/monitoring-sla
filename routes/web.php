@@ -32,10 +32,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('system.update');
 
 
-    Route::post('/git-stash', fn() => runCommand(['git', 'stash']));
-    Route::post('/git-pull', fn() => runCommand(['git', 'pull']));
-    Route::post('/composer-install', fn() => runCommand(['composer', 'install']));
-    Route::post('/migrate', fn() => runCommand(['php', 'artisan', 'migrate', '--force']));
+    Route::post('/git-stash', fn() => runCommand(['git', 'stash']))->name('git.stash');
+    Route::post('/git-pull', fn() => runCommand(['git', 'pull']))->name('git.pull');
+    Route::post('/composer-install', fn() => runCommand(['composer', 'install']))->name('composer.install');
+    Route::post('/migrate', fn() => runCommand(['php', 'artisan', 'migrate', '--force']))->name('migrate');
 
     function runCommand(array $cmd)
     {

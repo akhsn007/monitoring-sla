@@ -63,8 +63,14 @@
 
                 // Git Pull
                 $('#gitPullBtn').on('click', function() {
+                    $('#gitLog').text('⏳ Running git stash...');
+                    $.post('{{ route('git.stash') }}', function(data) {
+                        $('#gitLog').text('✅ Git stash output:\n' + data.output);
+                    }).fail(function(xhr) {
+                        $('#gitLog').text('❌ Git stash failed:\n' + xhr.responseText);
+                    });
                     $('#gitLog').text('⏳ Running git pull...');
-                    $.post('/api/git-pull', function(data) {
+                    $.post('{{ route('git.pull') }}', function(data) {
                         $('#gitLog').text('✅ Git pull output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#gitLog').text('❌ Git pull failed:\n' + xhr.responseText);
@@ -74,7 +80,7 @@
                 // Composer Install
                 $('#composerBtn').on('click', function() {
                     $('#composerLog').text('⏳ Running composer install...');
-                    $.post('/api/composer-install', function(data) {
+                    $.post('{{ route('composer.install') }}', function(data) {
                         $('#composerLog').text('✅ Composer output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#composerLog').text('❌ Composer failed:\n' + xhr.responseText);
@@ -84,7 +90,7 @@
                 // Migrate
                 $('#migrateBtn').on('click', function() {
                     $('#migrateLog').text('⏳ Running migration...');
-                    $.post('/api/migrate', function(data) {
+                    $.post('{{ route('migrate') }}', function(data) {
                         $('#migrateLog').text('✅ Migration output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#migrateLog').text('❌ Migration failed:\n' + xhr.responseText);
