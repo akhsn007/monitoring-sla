@@ -31,8 +31,10 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
 
     // dump($jsonContent);
     // dd($data);
-    Log::info($jsonContent);
-    Log::info($data);
+    if (env('APP_DEBUG')) {
+        Log::info($jsonContent);
+        Log::info($data);
+    }
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
         'lastup'    => $data['lastup'],
