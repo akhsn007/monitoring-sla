@@ -112,11 +112,11 @@
     <!-- Update System Modal -->
     <div id="updateSystemModal"
         class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
-        <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
+        <div class="max-w-md p-6 bg-white rounded-lg shadow-lg w-25">
             <h2 class="mb-4 text-lg font-semibold">Update System</h2>
             <p class="mb-4 text-gray-700">Are you sure you want to update the system? This will pull
                 the latest code and run migrations.</p>
-            <form method="POST" action="{{ route('system.update') }}">
+            <form method="GET" action="{{ route('system.update') }}">
                 @csrf
                 <div class="flex justify-end space-x-2">
                     <button type="button"
