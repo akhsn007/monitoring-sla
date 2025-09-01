@@ -9,16 +9,7 @@ class LogEntry extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'client_name',
-        'ip_address',
-        'root_cause',
-        'status',
-        'timestamp',
-        'lastdown',
-        'deviceid',
-        'downtime',
-    ];
+protected $guarded = ['id'];
 
     public $timestamps = true;
 }
