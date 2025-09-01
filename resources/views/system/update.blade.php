@@ -55,7 +55,7 @@
 
                     $('#gitLog').append('\n⏳ Running git pull...');
                     $.get('{{ route('git.pull') }}', function(data) {
-                        $('#gitLog').append('\n✅ Git pull output:\n' + data.output);
+                        $('#gitLog').append('<br>\n✅ Git pull output:\n' + data.output);
                     }).fail(function(xhr) {
                         $('#gitLog').append('\n❌ Git pull failed:\n' + xhr.responseText);
                     });
