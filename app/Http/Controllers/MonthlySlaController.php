@@ -35,14 +35,15 @@ class MonthlySlaController extends Controller
         // 2️⃣ Rekap SLA per PT
         $rekapSLA = $logs->groupBy('client_name')->map(function ($items) use ($month, $year) {
             $total = $items->count();
-            $down  = $items->where('status', 'down')->count();
+            $down  = $items->where('status', 'Down')->count();
             $sla   = $total > 0 ? round(100 * ($total - $down) / $total, 2) : 100;
-
+            $last_data = explode('%', $items->last()->downtime);
+            // dd($items->last());
             return [
                 'bulan'       => Carbon::create()->month($month)->format('F'),
                 'jumlah'      => $down,
-                'total_menit' => $down * 5, // contoh: 1 log down = 5 menit (bisa disesuaikan)
-                'sla'         => $sla,
+                'total_menit' => explode("]", explode('[', $last_data[1])[1])[0], // contoh: 1 log down = 5 menit (bisa disesuaikan)
+                'sla'         => $last_data[0],
             ];
         });
 
