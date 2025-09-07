@@ -43,7 +43,7 @@ class MonthlySlaController extends Controller
                 'bulan'       => Carbon::create()->month($month)->format('F'),
                 'jumlah'      => $down,
                 'total_menit' => explode("]", explode('[', $last_data[1])[1])[0], // contoh: 1 log down = 5 menit (bisa disesuaikan)
-                'sla'         => $last_data[0],
+                'sla'         => number_format((float)$last_data[0], 2, '.', '')
             ];
         });
 
