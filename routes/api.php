@@ -39,7 +39,6 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     $logEntry = \App\Models\LogEntry::updateOrCreate([
         'lastup'    => $data['lastup'],
         'deviceid'    => $data['deviceid'],
-        'status'      => $data['laststatus'],
     ], [
         'client_name' => $data['device'] ?? 'Tidak diketahui',
         'ip_address'  => $data['host'] ?? '0.0.0.0',
