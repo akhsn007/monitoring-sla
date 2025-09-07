@@ -12,7 +12,7 @@ class DashboardController extends Controller
         $totalLogs = LogEntry::count();
         $totalDown = LogEntry::where('status', 'down')->count();
         $totalClients = LogEntry::distinct('client_name')->count('client_name');
-        $avgSla = 100 - ($totalDown / max($totalLogs, 1)) * 100;
+        $avgSla = ($totalDown / $totalLogs) * 100;
 
         // Pie chart: root cause
         $rootCauseLabels = LogEntry::select('root_cause')->distinct()->pluck('root_cause');

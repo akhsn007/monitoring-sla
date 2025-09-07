@@ -1,40 +1,40 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="text-xl font-semibold leading-tight text-gray-800">
             📊 Dashboard Monitoring SLA
         </h2>
     </x-slot>
 
     <div class="py-6">
-        <div class="max-w-7xl mx-auto px-4 space-y-6">
+        <div class="px-4 mx-auto space-y-6 max-w-7xl">
             {{-- Statistik --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-md">
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                <div class="p-6 bg-white shadow-md rounded-xl">
                     <p class="text-sm text-slate-500">Total Log Gangguan</p>
                     <p class="text-3xl font-bold">{{ $totalLogs }}</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="p-6 bg-white shadow-md rounded-xl">
                     <p class="text-sm text-slate-500">Total Klien</p>
                     <p class="text-3xl font-bold">{{ $totalClients }}</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md">
+                <div class="p-6 bg-white shadow-md rounded-xl">
                     <p class="text-sm text-slate-500">Jaringan Down</p>
                     <p class="text-3xl font-bold text-red-600">{{ $downCount }}</p>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md">
-                    <p class="text-sm text-slate-500">SLA Rata-rata</p>
+                <div class="p-6 bg-white shadow-md rounded-xl">
+                    <p class="text-sm text-slate-500">Down Rata-rata</p>
                     <p class="text-3xl font-bold">{{ $avgSla }}%</p>
                 </div>
             </div>
 
             {{-- Grafik --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-lg font-semibold mb-4">📈 Root Cause (Pie Chart)</h3>
+            <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div class="p-6 bg-white shadow-md rounded-xl">
+                    <h3 class="mb-4 text-lg font-semibold">📈 Root Cause (Pie Chart)</h3>
                     <canvas id="pieChart"></canvas>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-lg font-semibold mb-4">🏢 Jumlah Tiket per Klien</h3>
+                <div class="p-6 bg-white shadow-md rounded-xl">
+                    <h3 class="mb-4 text-lg font-semibold">🏢 Jumlah Tiket per Klien</h3>
                     <canvas id="barChart"></canvas>
                 </div>
             </div>
