@@ -20,7 +20,7 @@ class MonthlySlaController extends Controller
         $logs = LogEntry::whereBetween('timestamp', [$startOfMonth, $endOfMonth])->get();
 
         // 1️⃣ Pareto Root Cause
-        $paretoRootCause = $logs->groupBy('client_name')->map(function ($items) {
+        $paretoRootCause = $logs->where('status', 'Down')->groupBy('client_name')->map(function ($items) {
             $rootCauseCounts = $items->groupBy('root_cause')->map->count();
             if ($rootCauseCounts->isEmpty()) {
                 return ['root_cause' => '-', 'jumlah' => 0];
@@ -52,10 +52,18 @@ class MonthlySlaController extends Controller
 
         // Nama bulan Indonesia
         $months = [
-            1 => 'Januari', 2 => 'Februari', 3 => 'Maret',
-            4 => 'April', 5 => 'Mei', 6 => 'Juni',
-            7 => 'Juli', 8 => 'Agustus', 9 => 'September',
-            10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+            1 => 'Januari',
+            2 => 'Februari',
+            3 => 'Maret',
+            4 => 'April',
+            5 => 'Mei',
+            6 => 'Juni',
+            7 => 'Juli',
+            8 => 'Agustus',
+            9 => 'September',
+            10 => 'Oktober',
+            11 => 'November',
+            12 => 'Desember'
         ];
 
         return view('monthly-sla.index', compact(

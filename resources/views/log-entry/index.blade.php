@@ -61,11 +61,12 @@
                                 <td class="p-3">{{ $log->deviceid }}</td>
                                 <td class="p-3">{{ $log->ip_address }}</td>
                                 <td class="p-3">{{ $log->root_cause }}</td>
-                                @php
-                                    $statusColor = $log->status == 'Down' ? 'red' : 'green';
-                                @endphp
-                                <td class="p-3 text-{{ $statusColor }}-600 font-bold">
-                                    {{ ucfirst($log->status) }}
+                                @if ($log->status == 'up' || $log->status == 'Up')
+                                    <td class="p-3 font-bold text-green-600">
+                                    @else
+                                    <td class="p-3 font-bold text-red-600">
+                                @endif
+                                {{ ucfirst($log->status) }}
                                 </td>
                                 <td class="p-3">{{ $log->lastdown }}</td>
                                 <td class="p-3">{{ $log->lastup }}</td>

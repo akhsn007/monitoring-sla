@@ -53,9 +53,9 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
-                        <x-dropdown-link :href="route('log-viewer.index')">
+                        {{-- <x-dropdown-link :href="route('log-viewer.index')">
                             {{ __('Log Viewer') }}
-                        </x-dropdown-link>
+                        </x-dropdown-link> --}}
 
                         <!-- Update System Modal Trigger -->
                         <x-dropdown-link href="#"
