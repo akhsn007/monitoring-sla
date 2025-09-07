@@ -25,7 +25,7 @@ class MonthlySlaController extends Controller
             if ($rootCauseCounts->isEmpty()) {
                 return ['root_cause' => '-', 'jumlah' => 0];
             }
-            $top = $rootCauseCounts->sortDesc()->take(1);
+            $top = $rootCauseCounts->sortDesc();
             return [
                 'root_cause' => $top->keys()->first(),
                 'jumlah'     => $top->first(),
