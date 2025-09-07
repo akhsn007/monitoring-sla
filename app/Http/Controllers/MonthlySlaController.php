@@ -20,7 +20,7 @@ class MonthlySlaController extends Controller
         $logs = LogEntry::whereBetween('timestamp', [$startOfMonth, $endOfMonth])->get();
 
         // 1️⃣ Pareto Root Cause
-        $paretoRootCause = $logs->where('status', 'Down')->groupBy('client_name')->map(function ($items) {
+        $paretoRootCause = $logs->where('status', 'like', 'Down')->groupBy('client_name')->map(function ($items) {
             $rootCauseCounts = $items->groupBy('root_cause')->map->count();
             if ($rootCauseCounts->isEmpty()) {
                 return ['root_cause' => '-', 'jumlah' => 0];
