@@ -19,12 +19,14 @@ class DashboardController extends Controller
         $rootCauseCounts = LogEntry::selectRaw('root_cause, COUNT(*) as total')
             ->groupBy('root_cause')
             ->pluck('total');
-
         // Bar chart: jumlah tiket per klien
-        $siteLabels = LogEntry::select('client_name')->distinct()->pluck('client_name');
-        $siteCounts = LogEntry::selectRaw('client_name, COUNT(*) as total')
+        $siteData = LogEntry::selectRaw('client_name, COUNT(*) as total')
             ->groupBy('client_name')
-            ->pluck('total');
+            ->orderBy('client_name') // opsional, untuk urutan konsisten
+            ->get();
+
+        $siteLabels = $siteData->pluck('client_name');
+        $siteCounts = $siteData->pluck('total');
 
         return view('dashboard', [
             'totalLogs' => $totalLogs,
