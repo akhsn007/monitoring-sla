@@ -39,8 +39,8 @@ class MonthlySlaController extends Controller
             $total = $items->count();
             $down  = $items->where('status', 'like', 'Down')->count();
             $sla   = $total > 0 ? round(100 * ($total - $down) / $total, 2) : 100;
-            $last_data = explode('%', $items->first->downtime);
-            // dd($items->sortByDesc("downtime")->first());
+            $last_data = explode('%', $items->first()->downtime);
+            dd($last_data);
             return [
                 'bulan'       => Carbon::create()->month($month)->format('F'),
                 'jumlah'      => $down,
