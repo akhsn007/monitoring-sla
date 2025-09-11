@@ -31,10 +31,6 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
 
     // dump($jsonContent);
     // dd($data);
-    if (env('APP_DEBUG')) {
-        Log::info('JSON Content:', $jsonContent);
-        Log::info('Decoded Data:', $data);
-    }
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
         'lastup'    => $data['lastup'],
@@ -49,7 +45,13 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
         'downtime'    => $data['downtime'] ?? null,
         'timestamp'   => $timestamp,
     ]);
-    Log::info('log enttri:', $logEntry);
+    if (env('APP_DEBUG')) {
+        Log::warning("----- PRTG Import Log Entry -----");
+        Log::info($jsonContent);
+        Log::info($data);
+        Log::info($logEntry);
+        Log::warning("----- End of PRTG Import Log Entry -----");
+    }
 
     return response()->json([
         'success' => true,
