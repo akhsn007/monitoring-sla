@@ -33,6 +33,7 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     // dd($data);
     if (env('APP_DEBUG')) {
         Log::warning("----- PRTG Import Log Entry -----");
+        Log::info($request->all());
         Log::info($jsonContent);
         Log::info($data);
     }
