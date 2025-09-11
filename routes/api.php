@@ -20,8 +20,8 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     $jsonContent = urldecode($jsonContent);
     $data = json_decode($jsonContent, true);
 
-    $timestamp = !empty($data['%lastcheck'])
-        ? \Carbon\Carbon::createFromFormat('d/m/Y H:i:s', $data['%lastcheck'])->format('Y-m-d H:i:s')
+    $timestamp = !empty($data['lastcheck'])
+        ? \Carbon\Carbon::createFromFormat('d/m/Y H:i:s', $data['lastcheck'])->format('Y-m-d H:i:s')
         : now();
     // return response()->json([
     //     'success' => false,
@@ -32,8 +32,8 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     // dump($jsonContent);
     // dd($data);
     if (env('APP_DEBUG')) {
-        Log::info($jsonContent);
-        Log::info($data);
+        Log::info('JSON Content:', [$jsonContent]);
+        Log::info('Decoded Data:', [$data]);
     }
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
