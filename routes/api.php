@@ -32,8 +32,8 @@ Route::put('/log-entry/import-prtg', function (Request $request) {
     // dump($jsonContent);
     // dd($data);
     if (env('APP_DEBUG')) {
-        Log::info('JSON Content:', [$jsonContent]);
-        Log::info('Decoded Data:', [$data]);
+        Log::info('JSON Content:', $jsonContent);
+        Log::info('Decoded Data:', $data);
     }
 
     $logEntry = \App\Models\LogEntry::updateOrCreate([
